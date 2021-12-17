@@ -30,7 +30,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<UUserWidget> HealthBarClass;
 	
-	UWorldWidget* ActiveHealthBar;
+	UWorldWidget* ActiveHealthBar = nullptr;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	FName WeaponSocket = "Weapon_H";
@@ -53,7 +53,7 @@ protected:
 	void OnHealthChanged(AActor* InstigatorActor, UAttributeComponent* OwningComp, float NewHealth, float Delta);
 
 	virtual void OnEnemyDied();
-
+	
 	AWeapon* Weapon;
 public:
 	AWeapon* GetWeapon();

@@ -56,9 +56,8 @@ void ANearWeapon::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	}
 	if(UAttributeComponent::ApplyDamage(OwnActor,OtherActor,DamageValue))
 	{
-		UE_LOG(LogTemp,Log,TEXT("Damage!"))
+		//UE_LOG(LogTemp,Log,TEXT("Damage!"))
 		CacheActors.Add(OtherActor);
 		PlayEffect();
 	}
-	PlayEffect();
 }

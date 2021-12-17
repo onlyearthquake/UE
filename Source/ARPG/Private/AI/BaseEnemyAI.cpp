@@ -48,12 +48,11 @@ void ABaseEnemyAI::BeginPlay()
 {
 	Super::BeginPlay();
 	ActiveHealthBar = CreateWidget<UWorldWidget>(GetWorld(), HealthBarClass);
-	if (ActiveHealthBar)
+	if (ensure(ActiveHealthBar))
 	{
 		ActiveHealthBar->AttachedActor = this;
 		ActiveHealthBar->AddToViewport();
 	}
-	
 	Weapon = GetWeapon();
 }
 void ABaseEnemyAI::PostInitializeComponents()
@@ -84,6 +83,7 @@ void ABaseEnemyAI::OnPawnSeen(APawn* Pawn)
 
 void ABaseEnemyAI::OnHealthChanged(AActor* InstigatorActor, UAttributeComponent* OwningComp, float NewHealth, float Delta)
 {
+	//BeAttacked
 	if (Delta < 0.0f)
 	{
 		AAIController* AIController = Cast<AAIController>(GetController());
@@ -94,7 +94,6 @@ void ABaseEnemyAI::OnHealthChanged(AActor* InstigatorActor, UAttributeComponent*
 			SetTargetActor(Player);
 		}
 
-		// Died
 		if (NewHealth <= 0.0f)
 		{
 			OnEnemyDied();
@@ -112,7 +111,6 @@ void ABaseEnemyAI::OnEnemyDied()
 	}
 
 	GetMesh()->SetAllBodiesSimulatePhysics(true);
-	GetMesh()->SetCollisionProfileName("Ragdoll");
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetCharacterMovement()->DisableMovement();
