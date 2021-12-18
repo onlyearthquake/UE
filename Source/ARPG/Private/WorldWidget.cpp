@@ -26,11 +26,13 @@ void UWorldWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		float Scale = UWidgetLayoutLibrary::GetViewportScale(this);
 
 		ScreenPosition /= Scale;
+		if (ParentSizeBox)
+		{
+			ParentSizeBox->SetRenderTranslation(ScreenPosition);
+		}
 	}
-	
 	if (ParentSizeBox)
 	{
 		ParentSizeBox->SetVisibility(bIsOnScreen ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	}
-	
 }

@@ -5,7 +5,6 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "ActionComponent.h"
 #include "AttributeComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "WorldWidget.h"
@@ -34,7 +33,6 @@ AARPGCharacter::AARPGCharacter()
 	AttributeComp = CreateDefaultSubobject<UAttributeComponent>(TEXT("AttributeComp"));
 	AttributeComp->OnHealthChange.AddDynamic(this, &AARPGCharacter::OnHealthChanged);
 	AttributeComp->Faction = EFactionKind::Player;
-	ActionComp = CreateDefaultSubobject<UActionComponent>(TEXT("ActionComp"));
 	
 	Delegate.BindUFunction(this, "ReturnToIdle");
 }

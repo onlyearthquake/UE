@@ -7,7 +7,6 @@
 #include"State/EStateEnum.h"
 #include "ARPGCharacter.generated.h"
 
-class UActionComponent;
 class UAttributeComponent;
 class UWorldWidget;
 class AWeapon;
@@ -33,9 +32,6 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UAttributeComponent* AttributeComp;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UActionComponent* ActionComp;
 
 	UWorldWidget* ActiveHealthBar;
 

@@ -47,12 +47,6 @@ void ABaseEnemyAI::Attack(AActor* TargetActor)
 void ABaseEnemyAI::BeginPlay()
 {
 	Super::BeginPlay();
-	ActiveHealthBar = CreateWidget<UWorldWidget>(GetWorld(), HealthBarClass);
-	if (ensure(ActiveHealthBar))
-	{
-		ActiveHealthBar->AttachedActor = this;
-		ActiveHealthBar->AddToViewport();
-	}
 	Weapon = GetWeapon();
 }
 void ABaseEnemyAI::PostInitializeComponents()
@@ -75,6 +69,10 @@ void ABaseEnemyAI::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void ABaseEnemyAI::OnPawnSeen(APawn* Pawn)
 {
+	if(ActiveHealthBar == nullptr)
+	{
+		CreateHealthBar();
+	}
 	if (GetTargetActor() != Pawn)
 	{
 		SetTargetActor(Pawn);
@@ -83,6 +81,12 @@ void ABaseEnemyAI::OnPawnSeen(APawn* Pawn)
 
 void ABaseEnemyAI::OnHealthChanged(AActor* InstigatorActor, UAttributeComponent* OwningComp, float NewHealth, float Delta)
 {
+	if(ActiveHealthBar == nullptr)
+	{
+		CreateHealthBar();
+		AttributeComp->OnHealthChange.Broadcast(InstigatorActor, OwningComp,NewHealth,Delta);
+		return;
+	}
 	//BeAttacked
 	if (Delta < 0.0f)
 	{
@@ -112,12 +116,21 @@ void ABaseEnemyAI::OnEnemyDied()
 
 	GetMesh()->SetAllBodiesSimulatePhysics(true);
 
-	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	GetCharacterMovement()->DisableMovement();
 	
 	//Weapon->DisableWeapon();
 	SetLifeSpan(7.0f);
-	ActiveHealthBar->RemoveFromParent();
+}
+
+void ABaseEnemyAI::CreateHealthBar()
+{
+	ActiveHealthBar = CreateWidget<UWorldWidget>(GetWorld(), HealthBarClass);
+	if (ensure(ActiveHealthBar))
+	{
+		ActiveHealthBar->AttachedActor = this;
+		ActiveHealthBar->AddToViewport();
+	}
 }
 
 AWeapon* ABaseEnemyAI::GetWeapon()

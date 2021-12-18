@@ -53,7 +53,7 @@ protected:
 	void OnHealthChanged(AActor* InstigatorActor, UAttributeComponent* OwningComp, float NewHealth, float Delta);
 
 	virtual void OnEnemyDied();
-	
+	void CreateHealthBar();
 	AWeapon* Weapon;
 public:
 	AWeapon* GetWeapon();
