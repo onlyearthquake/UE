@@ -30,16 +30,16 @@ void ARadialBlurTrigger::BeginPlay()
 			PostProcessVolumeActor->bUnbound = true;
 		}
 	}
-	APawn* Player = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if(ensure(Player))
-	{
-		PlayerMoveComp = Player->GetMovementComponent();
-	}
 }
 
 void ARadialBlurTrigger::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	APawn* Player = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if(ensure(Player))
+	{
+		PlayerMoveComp = Player->GetMovementComponent();
+	}
 	if(PlayerMoveComp->GetMaxSpeed() * 0.9f < PlayerMoveComp->Velocity.Size())
 	{
 		if(!HasOpenPostProcess)
